@@ -387,6 +387,11 @@ config KEYBOARD_PXA930_ROTARY
 	  To compile this driver as a module, choose M here: the
 	  module will be called pxa930_rotary.
 
+config KEYBOARD_GOLDFISH_EVENTS
+	tristate "Generic Input Event device for Goldfish"
+	help
+	  no help
+
 config KEYBOARD_SAMSUNG
 	tristate "Samsung keypad support"
 	depends on SAMSUNG_DEV_KEYPAD
