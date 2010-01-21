@@ -153,7 +153,8 @@
 #if defined(CONFIG_CPU_ABRT_EV7) || defined(CONFIG_CPU_ABRT_EV6)
 # define CPU_PABORT_IFSR(reg)	mrc p15, 0, reg, cr5, cr0, 1         @asm macro;
 #else
-# define CPU_PABORT_IFSR(reg)	mov reg, #5                          @asm macro;
+# define HASH5 #5
+# define CPU_PABORT_IFSR(reg)	mov reg, HASH5                          @asm macro;
 #endif
 
 #endif
