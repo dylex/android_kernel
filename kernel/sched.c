@@ -610,10 +610,6 @@ struct rq {
 	struct list_head migration_queue;
 #endif
 
-	/* calc_load related fields */
-	unsigned long calc_load_update;
-	long calc_load_active;
-
 #ifdef CONFIG_SCHED_HRTICK
 #ifdef CONFIG_SMP
 	int hrtick_csd_pending;
@@ -1665,8 +1661,6 @@ static void cfs_rq_set_shares(struct cfs_rq *cfs_rq, unsigned long shares)
 #endif
 }
 #endif
-
-static void calc_load_account_active(struct rq *this_rq);
 
 #include "sched_stats.h"
 #include "sched_idletask.c"
@@ -2766,37 +2760,17 @@ unsigned long nr_iowait(void)
 
 unsigned long nr_active(void)
 {
-	unsigned long upd = calc_load_update + 10; 
-	long active;
+	unsigned long i, running = 0, uninterruptible = 0;
 
-	if (time_before(jiffies, upd)) 
-		return;
-
-	active = atomic_long_read(&calc_load_tasks);
-	active = active > 0 ? active * FIXED_1 : 0;
-
-	avenrun[0] = calc_load(avenrun[0], EXP_1, active);
-	avenrun[1] = calc_load(avenrun[1], EXP_5, active);
-	avenrun[2] = calc_load(avenrun[2], EXP_15, active);
-
-	calc_load_update += LOAD_FREQ;
-}
-
-/*
- * Either called from update_cpu_load() or from a cpu going idle
- */
-static void calc_load_account_active(struct rq *this_rq)
-{
-	long nr_active, delta;
-
-	nr_active = this_rq->nr_running;
-	nr_active += (long) this_rq->nr_uninterruptible;
-
-	if (nr_active != this_rq->calc_load_active) {
-		delta = nr_active - this_rq->calc_load_active;
-		this_rq->calc_load_active = nr_active;
-		atomic_long_add(delta, &calc_load_tasks);
+	for_each_online_cpu(i) {
+		running += cpu_rq(i)->nr_running;
+		uninterruptible += cpu_rq(i)->nr_uninterruptible;
 	}
+
+	if (unlikely((long)uninterruptible < 0))
+		uninterruptible = 0;
+
+	return running + uninterruptible;
 }
 
 /*
@@ -2826,11 +2800,6 @@ static void update_cpu_load(struct rq *this_rq)
 		if (new_load > old_load)
 			new_load += scale-1;
 		this_rq->cpu_load[i] = (old_load*(scale-1) + new_load) >> i;
-	}
-
-	if (time_after_eq(jiffies, this_rq->calc_load_update)) {
-		this_rq->calc_load_update += LOAD_FREQ;
-		calc_load_account_active(this_rq);
 	}
 }
 
@@ -6519,15 +6488,6 @@ static void migrate_dead_tasks(unsigned int dead_cpu)
 
 	}
 }
-
-/*
- * remove the tasks which were accounted by rq from calc_load_tasks.
- */
-static void calc_global_load_remove(struct rq *rq)
-{
-	atomic_long_sub(rq->calc_load_active, &calc_load_tasks);
-	rq->calc_load_active = 0;
-}
 #endif /* CONFIG_HOTPLUG_CPU */
 
 #if defined(CONFIG_SCHED_DEBUG) && defined(CONFIG_SYSCTL)
@@ -6752,7 +6712,6 @@ migration_call(struct notifier_block *nfb, unsigned long action, void *hcpu)
 		__setscheduler(rq, p, SCHED_FIFO, MAX_RT_PRIO-1);
 		task_rq_unlock(rq, &flags);
 		cpu_rq(cpu)->migration_thread = p;
-		rq->calc_load_update = calc_load_update;
 		break;
 
 	case CPU_ONLINE:
@@ -6802,7 +6761,7 @@ migration_call(struct notifier_block *nfb, unsigned long action, void *hcpu)
 		cpuset_unlock();
 		migrate_nr_uninterruptible(rq);
 		BUG_ON(rq->nr_running != 0);
-		calc_global_load_remove(rq);
+
 		/*
 		 * No need to migrate the tasks: it was best-effort if
 		 * they didn't take sched_hotcpu_mutex. Just wake up
@@ -8479,8 +8438,6 @@ void __init sched_init(void)
 		rq = cpu_rq(i);
 		spin_lock_init(&rq->lock);
 		rq->nr_running = 0;
-		rq->calc_load_active = 0;
-		rq->calc_load_update = jiffies + LOAD_FREQ;
 		init_cfs_rq(&rq->cfs, rq);
 		init_rt_rq(&rq->rt, rq);
 #ifdef CONFIG_FAIR_GROUP_SCHED
