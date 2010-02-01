@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.29.6
-# Wed Jan 20 20:03:43 2010
+# Sun Jan 31 23:06:20 2010
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -642,9 +642,9 @@ CONFIG_TUN=y
 # CONFIG_VETH is not set
 # CONFIG_PHYLIB is not set
 CONFIG_NET_ETHERNET=y
-# CONFIG_MII is not set
+CONFIG_MII=y
 # CONFIG_AX88796 is not set
-# CONFIG_SMC91X is not set
+CONFIG_SMC91X=y
 # CONFIG_DM9000 is not set
 # CONFIG_SMC911X is not set
 # CONFIG_SMSC911X is not set
