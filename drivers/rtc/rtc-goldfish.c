@@ -17,6 +17,7 @@
 #include <linux/irq.h>
 #include <linux/platform_device.h>
 #include <linux/rtc.h>
+#include <linux/slab.h>
 
 #include <mach/timer.h>
 #include <mach/hardware.h>
