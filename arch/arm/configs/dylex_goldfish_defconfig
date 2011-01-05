@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
-# Linux kernel version: 2.6.35.7
-# Sat Oct 30 23:12:59 2010
+# Linux kernel version: 2.6.35.9
+# Mon Dec 20 07:14:31 2010
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -633,7 +633,6 @@ CONFIG_MTD=y
 # CONFIG_MTD_TESTS is not set
 # CONFIG_MTD_CONCAT is not set
 CONFIG_MTD_PARTITIONS=y
-# CONFIG_MTD_LAZYECCSTATS is not set
 # CONFIG_MTD_REDBOOT_PARTS is not set
 CONFIG_MTD_CMDLINE_PARTS=y
 # CONFIG_MTD_AFS_PARTS is not set
@@ -820,6 +819,7 @@ CONFIG_SLHC=y
 # CONFIG_NETCONSOLE is not set
 # CONFIG_NETPOLL is not set
 # CONFIG_NET_POLL_CONTROLLER is not set
+# CONFIG_GAN_ETH is not set
 # CONFIG_ISDN is not set
 # CONFIG_PHONE is not set
 
@@ -860,6 +860,8 @@ CONFIG_KEYBOARD_GOLDFISH_EVENTS=y
 # CONFIG_INPUT_JOYSTICK is not set
 # CONFIG_INPUT_TABLET is not set
 CONFIG_INPUT_TOUCHSCREEN=y
+# CONFIG_TOUCHSCREEN_ATMEL is not set
+# CONFIG_TOUCHSCREEN_COMPATIBLE_REPORT is not set
 # CONFIG_TOUCHSCREEN_AD7879_I2C is not set
 # CONFIG_TOUCHSCREEN_AD7879 is not set
 # CONFIG_TOUCHSCREEN_CYPRESS_TMG is not set
@@ -970,12 +972,6 @@ CONFIG_I2C_HELPER_AUTO=y
 # Other I2C/SMBus bus drivers
 #
 # CONFIG_I2C_STUB is not set
-
-#
-# Miscellaneous I2C Chip support
-#
-# CONFIG_SENSORS_MT9T013 is not set
-# CONFIG_SENSORS_PCA963X is not set
 # CONFIG_I2C_DEBUG_CORE is not set
 # CONFIG_I2C_DEBUG_ALGO is not set
 # CONFIG_I2C_DEBUG_BUS is not set
@@ -1011,6 +1007,7 @@ CONFIG_MFD_SUPPORT=y
 # CONFIG_MFD_SM501 is not set
 # CONFIG_HTC_PASIC3 is not set
 # CONFIG_TPS6507X is not set
+# CONFIG_TPS65200 is not set
 # CONFIG_TWL4030_CORE is not set
 # CONFIG_MFD_TC35892 is not set
 # CONFIG_MFD_TMIO is not set
