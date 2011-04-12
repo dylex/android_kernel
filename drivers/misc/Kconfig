@@ -493,6 +493,11 @@ config PCH_PHUB
 	  To compile this driver as a module, choose M here: the module will
 	  be called pch_phub.
 
+config QEMU_PIPE
+        tristate "Virtual Device for QEMU pipes"
+        ---help---
+          This is a virtual device for QEMU pipes.
+
 config WL127X_RFKILL
 	tristate "Bluetooth power control driver for TI wl127x"
 	depends on RFKILL
