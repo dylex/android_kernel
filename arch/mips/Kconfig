@@ -714,6 +714,11 @@ config CAVIUM_OCTEON_REFERENCE_BOARD
 		Hikari
 	  Say Y here for most Octeon reference boards.
 
+config MIPS_GOLDFISH
+	bool "MIPS Goldfish"
+	help
+	  Support for the MIPS versions of the Android Goldfish Virtual Platform.
+
 endchoice
 
 source "arch/mips/alchemy/Kconfig"
@@ -729,6 +734,7 @@ source "arch/mips/txx9/Kconfig"
 source "arch/mips/vr41xx/Kconfig"
 source "arch/mips/cavium-octeon/Kconfig"
 source "arch/mips/loongson/Kconfig"
+source "arch/mips/mach-goldfish/Kconfig"
 
 endmenu
 
