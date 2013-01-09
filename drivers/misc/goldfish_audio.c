@@ -255,7 +255,7 @@ static struct file_operations goldfish_audio_fops = {
 	.write = goldfish_audio_write,
 	.open = goldfish_audio_open,
 	.release = goldfish_audio_release,
-   .ioctl = goldfish_audio_ioctl,
+   .unlocked_ioctl = goldfish_audio_ioctl,
 
 };
 	

@@ -502,8 +502,7 @@ static int __init goldfish_mmc_probe(struct platform_device *pdev)
 	 * NOTE max_seg_size assumption that small blocks aren't
 	 * normally used (except e.g. for reading SD registers).
 	 */
-	mmc->max_phys_segs = 32;
-	mmc->max_hw_segs = 32;
+	mmc->max_segs = 32;
 	mmc->max_blk_size = 2048;	/* MMC_BLOCK_LENGTH is 11 bits (+1) */
 	mmc->max_blk_count = 2048;	/* MMC_BLOCK_COUNT is 11 bits (+1) */
 	mmc->max_req_size = BUFFER_SIZE;

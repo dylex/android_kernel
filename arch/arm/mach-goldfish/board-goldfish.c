@@ -112,8 +112,10 @@ static void __init goldfish_map_io(void)
 extern struct sys_timer goldfish_timer;
 
 MACHINE_START(GOLDFISH, "Goldfish")
+#ifdef CONFIG_MSM_DEBUG_UART
 	.phys_io	= IO_START,
 	.io_pg_offst	= ((IO_BASE) >> 18) & 0xfffc,
+#endif
 	.boot_params	= 0x00000100,
 	.map_io		= goldfish_map_io,
 	.init_irq	= goldfish_init_irq,
