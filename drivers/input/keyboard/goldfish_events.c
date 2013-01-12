@@ -75,7 +75,7 @@ static void events_import_bits(struct event_dev *edev, unsigned long bits[], uns
 	}
 }
 
-static int events_probe(struct platform_device *pdev)
+static int __devinit events_probe(struct platform_device *pdev)
 {
     struct input_dev *input_dev;
     struct event_dev *edev = NULL;
@@ -130,6 +130,7 @@ static int events_probe(struct platform_device *pdev)
     count = __raw_readl(addr + REG_LEN) / (4 * 4);
     if (count > ABS_MAX)
         count = ABS_MAX;
+    input_alloc_absinfo(input_dev);
     for(i = 0; i < count; i++) {
         int val[4]; 
         int j;
